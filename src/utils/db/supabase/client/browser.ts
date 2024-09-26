@@ -4,7 +4,4 @@ import { Database } from "~/utils/db/supabase/database.types";
 
 export const createClient = () =>
   // 型定義: https://supabase.com/docs/guides/api/rest/generating-types
-  createBrowserClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  createBrowserClient<Database>(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
