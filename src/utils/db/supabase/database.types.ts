@@ -6,19 +6,19 @@ export type Database = {
       containment_edge: {
         Row: {
           id: string;
-          owner: string | null;
+          owner: string;
           sourceId: string;
           targetId: string;
         };
         Insert: {
           id?: string;
-          owner?: string | null;
+          owner: string;
           sourceId: string;
           targetId: string;
         };
         Update: {
           id?: string;
-          owner?: string | null;
+          owner?: string;
           sourceId?: string;
           targetId?: string;
         };
@@ -27,19 +27,19 @@ export type Database = {
       dependency_edge: {
         Row: {
           id: string;
-          owner: string | null;
+          owner: string;
           sourceId: string;
           targetId: string;
         };
         Insert: {
           id?: string;
-          owner?: string | null;
+          owner: string;
           sourceId: string;
           targetId: string;
         };
         Update: {
           id?: string;
-          owner?: string | null;
+          owner?: string;
           sourceId?: string;
           targetId?: string;
         };
@@ -48,24 +48,24 @@ export type Database = {
       task: {
         Row: {
           completed: boolean;
-          description: string | null;
+          description: string;
           id: string;
           name: string;
-          owner: string | null;
+          owner: string;
         };
         Insert: {
           completed: boolean;
-          description?: string | null;
+          description: string;
           id?: string;
           name: string;
-          owner?: string | null;
+          owner: string;
         };
         Update: {
           completed?: boolean;
-          description?: string | null;
+          description?: string;
           id?: string;
           name?: string;
-          owner?: string | null;
+          owner?: string;
         };
         Relationships: [];
       };
