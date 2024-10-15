@@ -1,5 +1,6 @@
 // https://supabase.com/docs/guides/auth/social-login/auth-github?queryGroups=environment&environment=server&queryGroups=framework&framework=nextjs
 import { NextResponse } from "next/server";
+import { REDIRECT_ROUTE_AFTER_SIGN_IN } from "~/constants/constants";
 import { createClient } from "~/utils/db/supabase/client/server";
 // The client you created from the Server-Side Auth instructions
 
@@ -7,7 +8,7 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
   // if "next" is in param, use it as the redirect URL
-  const next = searchParams.get("next") ?? process.env.REDIRECT_ROUTE_AFTER_SIGN_IN ?? "/";
+  const next = searchParams.get("next") ?? REDIRECT_ROUTE_AFTER_SIGN_IN;
 
   if (code) {
     const supabase = createClient();
