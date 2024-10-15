@@ -17,6 +17,13 @@ export const getAllTasks = async () => {
   return tasks;
 };
 
+export const getTask = async (taskId: string) => {
+  const supabase = createClient();
+  const { data: task } = await supabase.from(taskTableName).select().match({ id: taskId }).single();
+
+  return task;
+};
+
 export const updateTask = async (task: Task) => {
   const supabase = createClient();
   const { data: resTask } = await supabase.from(taskTableName).update(task).match({ id: task.id });
