@@ -14,10 +14,10 @@ export const insertRelationEdge = async (newRelationEdge: RelationEdge, relation
 
 export const getAllRelationEdge = async () => {
   const supabase = createClient();
-  const { data: containmentNode } = await supabase.from(containmentTableName).select();
-  const { data: dependencyNode } = await supabase.from(dependencyTableName).select();
+  const { data: containmentEdges } = await supabase.from(containmentTableName).select();
+  const { data: dependencyEdges } = await supabase.from(dependencyTableName).select();
 
-  return { containmentNode, dependencyNode };
+  return { containmentEdges, dependencyEdges };
 };
 
 export const updateRelationEdge = async (relationEdge: RelationEdge, relationType: RelationType) => {
@@ -31,7 +31,7 @@ export const updateRelationEdge = async (relationEdge: RelationEdge, relationTyp
 export const deleteRelationEdge = async (relationEdgeId: string, relationType: RelationType) => {
   const supabase = createClient();
   const tableName = relationType === "containment" ? containmentTableName : dependencyTableName;
-  const { data: resRelationEdge } = await supabase.from(tableName).delete().match({ id: relationEdgeId });
+  const { status, statusText } = await supabase.from(tableName).delete().eq("id", relationEdgeId);
 
-  return resRelationEdge;
+  return { status, statusText };
 };

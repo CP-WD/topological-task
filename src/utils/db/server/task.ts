@@ -26,9 +26,9 @@ export const getTask = async (taskId: string) => {
 
 export const updateTask = async (task: Task) => {
   const supabase = createClient();
-  const { data: resTask } = await supabase.from(taskTableName).update(task).match({ id: task.id });
+  const { status, statusText } = await supabase.from(taskTableName).update(task).eq("id", task.id);
 
-  return resTask;
+  return { status, statusText };
 };
 
 export const deleteTask = async (taskId: string) => {
