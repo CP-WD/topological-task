@@ -13,9 +13,6 @@ export const genGraphDefinition = (rootId: string, tasks: Task[], relationEdges:
   const connectedNodes = new Set([...connectedComponents.connectedNodes, ...revConnectedComponents.connectedNodes]);
   const connectedEdges = new Set([...connectedComponents.connectedEdges, ...revConnectedComponents.connectedEdges]);
 
-  console.log(connectedNodes);
-  console.log(connectedEdges);
-
   const nodes: ElementDefinition[] = Array.from(connectedNodes).map((node) => {
     return {
       data: {
