@@ -10,10 +10,13 @@ export const genGraphDefinition = (rootId: string, tasks: Task[], relationEdges:
   const connectedComponents = genForwardConnectedComponents(rootId, tasks, relationEdges);
   const revConnectedComponents = genReverseConnectedComponents(rootId, tasks, relationEdges);
 
-  const connectedNode = connectedComponents.connectedNodes.union(revConnectedComponents.connectedNodes);
-  const connectedEdge = connectedComponents.connectedEdges.union(revConnectedComponents.connectedEdges);
+  const connectedNodes = new Set([...connectedComponents.connectedNodes, ...revConnectedComponents.connectedNodes]);
+  const connectedEdges = new Set([...connectedComponents.connectedEdges, ...revConnectedComponents.connectedEdges]);
 
-  const nodes: ElementDefinition[] = Array.from(connectedNode).map((node) => {
+  console.log(connectedNodes);
+  console.log(connectedEdges);
+
+  const nodes: ElementDefinition[] = Array.from(connectedNodes).map((node) => {
     return {
       data: {
         id: node.id,
@@ -23,7 +26,7 @@ export const genGraphDefinition = (rootId: string, tasks: Task[], relationEdges:
     };
   });
 
-  const edges: ElementDefinition[] = Array.from(connectedEdge).map((edge) => {
+  const edges: ElementDefinition[] = Array.from(connectedEdges).map((edge) => {
     return {
       data: {
         id: edge.id,

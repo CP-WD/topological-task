@@ -8,16 +8,9 @@ const mapTasksById = (tasks: Task[]) => {
   return taskById;
 };
 
-const mapEdgesById = (
-  relationEdges: RelationEdge[],
-  excludeRoot: boolean,
-  getSourceId: (edge: RelationEdge) => string
-) => {
+const mapEdgesById = (relationEdges: RelationEdge[], getSourceId: (edge: RelationEdge) => string) => {
   const edgesById = new Map<string, RelationEdge[]>();
   relationEdges.forEach((edge) => {
-    if (excludeRoot && (edge.sourceId === ROOT_TASK_ID || edge.targetId === ROOT_TASK_ID)) {
-      return;
-    }
     const sourceId = getSourceId(edge);
     if (!edgesById.has(sourceId)) {
       edgesById.set(sourceId, []);
@@ -27,7 +20,11 @@ const mapEdgesById = (
   return edgesById;
 };
 
-const findConnectedComponents = (sourceId: string, edgeMap: Map<string, RelationEdge[]>) => {
+const findConnectedComponents = (
+  sourceId: string,
+  edgeMap: Map<string, RelationEdge[]>,
+  getTargetId: (edge: RelationEdge) => string
+) => {
   const connectedNodeIds = new Set([sourceId]);
   const connectedEdges = new Set<RelationEdge>();
   const stack = [sourceId];
@@ -37,7 +34,7 @@ const findConnectedComponents = (sourceId: string, edgeMap: Map<string, Relation
     const edges = edgeMap.get(currentId);
     if (edges) {
       edges.forEach((edge) => {
-        const targetId = edge.targetId;
+        const targetId = getTargetId(edge);
         if (!connectedNodeIds.has(targetId)) {
           stack.push(targetId);
         }
@@ -58,15 +55,19 @@ const genConnectedComponents = (
 ) => {
   const taskMap = mapTasksById(tasks);
 
-  const edgeMap = mapEdgesById(relationEdges, true, reverse ? (edge) => edge.targetId : (edge) => edge.sourceId);
+  const getSourceId = reverse ? (edge: RelationEdge) => edge.targetId : (edge: RelationEdge) => edge.sourceId;
+  const edgeMap = mapEdgesById(relationEdges, getSourceId);
 
-  const { connectedNodeIds, connectedEdges } = findConnectedComponents(sourceId, edgeMap);
-
-  const connectedNodes = Array.from(connectedNodeIds).map((nodeId) => taskMap.get(nodeId)!);
+  const getTargetId = reverse ? (edge: RelationEdge) => edge.sourceId : (edge: RelationEdge) => edge.targetId;
+  const { connectedNodeIds, connectedEdges } = findConnectedComponents(sourceId, edgeMap, getTargetId);
 
   return {
-    connectedNodes: new Set(connectedNodes),
-    connectedEdges: connectedEdges
+    connectedNodes: Array.from(connectedNodeIds)
+      .filter((id) => id != ROOT_TASK_ID)
+      .map((nodeId) => taskMap.get(nodeId)!),
+    connectedEdges: Array.from(connectedEdges).filter(
+      (edge) => edge.sourceId !== ROOT_TASK_ID && edge.targetId !== ROOT_TASK_ID
+    )
   };
 };
 
