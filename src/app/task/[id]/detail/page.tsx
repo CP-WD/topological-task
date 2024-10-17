@@ -34,6 +34,15 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
       <p>
         <Link href={`/task/${id}/edit/dependency`}>Add dependency</Link>
       </p>
+      <p>
+        <Link href={`/task/${id}/graph/containment`}>See containment relation</Link>
+      </p>
+      <p>
+        <Link href={`/task/${id}/graph/dependency`}>See dependency relation</Link>
+      </p>
+      <p>
+        <Link href={`/task/${id}/graph/all`}>See all relation</Link>
+      </p>
       <button>Delete</button>
     </div>
   );
