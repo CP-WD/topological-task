@@ -1,6 +1,9 @@
 "use client";
 
-import { PropsWithChildren, ReactNode, useState } from "react";
+import { ChevronRight } from "lucide-react";
+import { PropsWithChildren, ReactNode } from "react";
+import { Checkbox } from "~/components/ui/checkbox";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/components/ui/collapsible";
 import { RelationEdge } from "~/types/RelationEdge";
 import { Task } from "~/types/Task";
 import { genOutgoingNeighbors } from "~/utils/graph/genNeighbors";
@@ -22,16 +25,19 @@ export const buildSelectTreeItems = (sourceId: string, tasks: Task[], dependency
 };
 
 export const SelectTreeNode = ({ item, hasChild, children }: PropsWithChildren<SelectTreeNodeProps>): ReactNode => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div>
-      <div>
-        {hasChild && <input type="checkbox" onChange={(e) => setIsOpen(e.target.checked)} />}
-        <label>{item.name}</label>
-        <input type="checkbox" name={item.id} defaultChecked={item.isDependency} />
+    <Collapsible>
+      <div className="flex items-center">
+        {hasChild && (
+          <CollapsibleTrigger className="data-[state=open]:rotate-90 transition">
+            <ChevronRight />
+          </CollapsibleTrigger>
+        )}
+
+        <Checkbox name={item.id} id={item.id} defaultChecked={item.isDependency} />
+        <label htmlFor={item.id}>{item.name}</label>
       </div>
-      {isOpen && <div className="ml-4">{children}</div>}
-    </div>
+      <CollapsibleContent className="ml-4">{children}</CollapsibleContent>
+    </Collapsible>
   );
 };
