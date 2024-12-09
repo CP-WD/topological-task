@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
-import { TaskTree } from "~/components/Tree/TaskTree/TaskTree";
+import { AppBar } from "~/components/AppBar/AppBar";
+import { Sidebar } from "~/components/SideBar/Sidebar";
+import { SidebarProvider } from "~/components/ui/sidebar";
 import { ROOT_TASK_ID } from "~/constants/constants";
 import { getAllRelationEdge } from "~/utils/db/server/relationEdge";
 import { getAllTasks } from "~/utils/db/server/task";
@@ -22,10 +24,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="flex">
-      <aside className="h-screen w-1/4">
-        <TaskTree rootId={ROOT_TASK_ID} tasks={allTasks} adjacencyMap={adjacencyMap} />
-      </aside>
-      <div className="h-screen w-3/4">{children}</div>
+      <SidebarProvider>
+        <Sidebar rootId={ROOT_TASK_ID} tasks={allTasks} adjacencyMap={adjacencyMap} />
+        <AppBar />
+        <div className="h-screen max-w-screen-lg mx-auto p-5">{children}</div>
+      </SidebarProvider>
     </div>
   );
 };
