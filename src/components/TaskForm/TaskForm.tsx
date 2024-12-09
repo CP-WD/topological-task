@@ -7,8 +7,8 @@ import { Task } from "~/types/Task";
 export const TaskForm = ({ task, formAction }: { task?: Task; formAction: (formData: FormData) => Promise<never> }) => {
   return (
     <div>
-      <form action={formAction}>
-        <div className="flex items-center">
+      <form action={formAction} className="space-y-2">
+        <div className="flex items-center space-x-2">
           <Input name="name" placeholder="Title" required defaultValue={task?.name} />
           <Checkbox name="completed" defaultChecked={task?.completed} />
         </div>
