@@ -1,5 +1,8 @@
+import { PencilIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Button } from "~/components/ui/button";
+import { Checkbox } from "~/components/ui/checkbox";
 import { ROOT_TASK_ID } from "~/constants/constants";
 import { getTask } from "~/utils/db/server/task";
 
@@ -21,29 +24,38 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const { task } = await fetchData(id);
 
   return (
-    <div>
-      <h1>{task.name}</h1>
-      <p>{task.description}</p>
-      <p>{task.completed ? "Completed" : "Not completed"}</p>
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <Checkbox />
+          <div className="font-semibold text-4xl">{task.name}</div>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Link href={`/task/${id}/edit`}>
+            <PencilIcon />
+          </Link>
+          <Link href={`/task/${id}/delete`}>
+            <TrashIcon />
+          </Link>
+        </div>
+      </div>
+
+      <p>{task.description.length ? task.description : "There is no description"}</p>
+
       <p>
-        <Link href={`/task/${id}/new`}>Create child task</Link>
+        <Button asChild>
+          <Link href={`/task/${id}/graph`}>View relation graph</Link>
+        </Button>
       </p>
-      <p>
-        <Link href={`/task/${id}/edit`}>Edit</Link>
+
+      <p className="space-x-2">
+        <Button asChild>
+          <Link href={`/task/${id}/new`}>Create child task</Link>
+        </Button>
+        <Button asChild>
+          <Link href={`/task/${id}/edit/dependency`}>Add dependency</Link>
+        </Button>
       </p>
-      <p>
-        <Link href={`/task/${id}/edit/dependency`}>Add dependency</Link>
-      </p>
-      <p>
-        <Link href={`/task/${id}/graph/containment`}>See containment relation</Link>
-      </p>
-      <p>
-        <Link href={`/task/${id}/graph/dependency`}>See dependency relation</Link>
-      </p>
-      <p>
-        <Link href={`/task/${id}/graph/all`}>See all relation</Link>
-      </p>
-      <button>Delete</button>
     </div>
   );
 };

@@ -1,7 +1,10 @@
 "use client";
 
+import { CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
+import { Collapsible } from "~/components/ui/collapsible";
 import { Task } from "~/types/Task";
 
 export const TaskTreeNode = ({
@@ -9,15 +12,19 @@ export const TaskTreeNode = ({
   hasChild,
   children
 }: PropsWithChildren<{ item: Task; hasChild: boolean }>) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div>
-      <div>
-        {hasChild && <input type="checkbox" onChange={(e) => setIsOpen(e.target.checked)} />}
+    <Collapsible>
+      <div className={`flex align-items-center ${hasChild ? "" : "ml-[24px]"}`}>
+        {hasChild && (
+          <CollapsibleTrigger className="data-[state=open]:rotate-90 transition">
+            <ChevronRight />
+          </CollapsibleTrigger>
+        )}
         <Link href={`/task/${task.id}/detail`}>{task.name}</Link>
       </div>
-      {isOpen && <div className="ml-4">{children}</div>}
-    </div>
+      <CollapsibleContent>
+        <div className="ml-[24px]">{children}</div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 };

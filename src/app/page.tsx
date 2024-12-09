@@ -1,5 +1,12 @@
 import Link from "next/link";
+import { Button } from "~/components/ui/button";
 
 export default function Home() {
-  return <Link href={"/sign-in"}>Sign in</Link>;
+  return (
+    <div className="h-screen flex justify-center items-center">
+      <Button asChild>
+        <Link href={"/sign-in"}>Sign in</Link>
+      </Button>
+    </div>
+  );
 }
