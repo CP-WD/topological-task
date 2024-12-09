@@ -14,7 +14,7 @@ export const TaskTreeNode = ({
 }: PropsWithChildren<{ item: Task; hasChild: boolean }>) => {
   return (
     <Collapsible>
-      <div className="flex align-items-center">
+      <div className={`flex align-items-center ${hasChild ? "" : "ml-[24px]"}`}>
         {hasChild && (
           <CollapsibleTrigger className="data-[state=open]:rotate-90 transition">
             <ChevronRight />
@@ -23,7 +23,7 @@ export const TaskTreeNode = ({
         <Link href={`/task/${task.id}/detail`}>{task.name}</Link>
       </div>
       <CollapsibleContent>
-        <div className="ml-4">{children}</div>
+        <div className="ml-[24px]">{children}</div>
       </CollapsibleContent>
     </Collapsible>
   );

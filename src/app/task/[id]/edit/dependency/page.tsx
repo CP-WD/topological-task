@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { updateDependency as handleUpdateDependency } from "~/app/task/[id]/edit/dependency/updateDependencyEdge";
 import { TaskSelectTree } from "~/components/Tree/TaskSelectTree/TaskSelectTree";
+import { Button } from "~/components/ui/button";
 import { getAllRelationEdge } from "~/utils/db/server/relationEdge";
 import { getAllTasks } from "~/utils/db/server/task";
 
@@ -26,14 +27,16 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
 
   return (
     <div>
-      <form action={submitAction}>
+      <form action={submitAction} className="space-y-2">
         <TaskSelectTree
           sourceId={id}
           tasks={allTasks}
           containmentEdges={containmentEdges}
           dependencyEdges={dependencyEdges}
         />
-        <button>submit</button>
+        <div className="flex justify-center">
+          <Button type="submit">Submit</Button>
+        </div>
       </form>
     </div>
   );

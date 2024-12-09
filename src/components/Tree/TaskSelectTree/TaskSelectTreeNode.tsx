@@ -27,7 +27,7 @@ export const buildSelectTreeItems = (sourceId: string, tasks: Task[], dependency
 export const SelectTreeNode = ({ item, hasChild, children }: PropsWithChildren<SelectTreeNodeProps>): ReactNode => {
   return (
     <Collapsible>
-      <div className="flex items-center">
+      <div className= {`flex items-center ${hasChild ? "" : "ml-[24px]"}`}>
         {hasChild && (
           <CollapsibleTrigger className="data-[state=open]:rotate-90 transition">
             <ChevronRight />
@@ -37,7 +37,7 @@ export const SelectTreeNode = ({ item, hasChild, children }: PropsWithChildren<S
         <Checkbox name={item.id} id={item.id} defaultChecked={item.isDependency} />
         <label htmlFor={item.id}>{item.name}</label>
       </div>
-      <CollapsibleContent className="ml-4">{children}</CollapsibleContent>
+      <CollapsibleContent className="ml-[24px]">{children}</CollapsibleContent>
     </Collapsible>
   );
 };
