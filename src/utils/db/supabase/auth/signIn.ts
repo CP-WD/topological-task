@@ -10,6 +10,8 @@ export const signInWithGithub = async () => {
   const provider = "github";
   const WEB_BASE_URL = getWebBaseUrl();
 
+  console.log(`${WEB_BASE_URL}/auth/callback`);
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
