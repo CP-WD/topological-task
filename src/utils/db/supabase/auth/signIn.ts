@@ -3,17 +3,17 @@
 import { redirect } from "next/navigation";
 import { createClient } from "~/utils/db/supabase/client/server";
 import { encodedRedirect } from "~/utils/encodedRedirect";
+import { getWebBaseUrl } from "~/utils/url/getWebBaseUrl";
 
 export const signInWithGithub = async () => {
-  console.log("signing in with GitHub");
-
   const supabase = createClient();
   const provider = "github";
+  const WEB_BASE_URL = getWebBaseUrl();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: `${process.env.WEB_BASE_URL}/auth/callback`
+      redirectTo: `${WEB_BASE_URL}/auth/callback`
     }
   });
 
